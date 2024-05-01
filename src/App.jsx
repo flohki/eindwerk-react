@@ -5,11 +5,11 @@ import ItemList from './Components/ItemList';
 
 function App() {
 
-  const [items, setItems] = useState([]);
   const [toPackItems, setToPackItems] = useState([]);
+  const [packedItems, setPackedItems] = useState([]);
 
   const handleAddItem = (newItem) => {
-    setItems([...items, newItem]);
+    setToPackItems([...toPackItems, newItem]);
   };
 
   const handleRemoveItem = (index) => {
@@ -17,13 +17,18 @@ function App() {
     setItems(updatedItems);
   };
 
+  const handlePackItem = (index) => {
+    const itemToPack = toPackItems[index];
+    setToPackItems(toPackItems.filter((_, i) => i !== index));
+    setPackedItems([...packedItems, itemToPack]);
+  };
+
   const handleUnpackItem = (index) => {
-    const itemToUnpack = items[index];
-    const updatedItems = [...items.slice(0, index), ...items.slice(index + 1)];
-    setItems(updatedItems);
-  
+    const itemToUnpack = packedItems[index];
+    setPackedItems(packedItems.filter((_, i) => i !== index));
     setToPackItems([...toPackItems, itemToUnpack]);
   };
+
 
   return (
     <div className="App">
@@ -39,7 +44,8 @@ function App() {
               {/* Add buttons for clearing items and filters */}
             </header>
             <ItemList 
-              items={items} 
+              items={toPackItems} 
+              onPackItem={handlePackItem}
               onRemoveItem={handleRemoveItem} 
               onUnpackItem={handleUnpackItem} 
             />
@@ -50,7 +56,7 @@ function App() {
               {/* Add buttons for clearing items and filters */}
             </header>
             <ItemList 
-              items={items} 
+              items={packedItems} 
               onRemoveItem={handleRemoveItem} 
               onUnpackItem={handleUnpackItem} 
             />
