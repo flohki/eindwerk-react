@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import InputList from './Components/InputList';
-import ItemList from './Components/ItemList';
+import ToPackList from './Components/ToPackList';
+import PackedList from './Components/PackedList';
 
 function App() {
 
@@ -13,8 +14,8 @@ function App() {
   };
 
   const handleRemoveItem = (index) => {
-    const updatedItems = [...items.slice(0, index), ...items.slice(index + 1)];
-    setItems(updatedItems);
+    const updatedItems = [...toPackItems.slice(0, index), ...toPackItems.slice(index + 1)];
+    setToPackItems(updatedItems);
   };
 
   const handlePackItem = (index) => {
@@ -34,32 +35,19 @@ function App() {
     <div className="App">
       <div className="max-w-[1100px] mx-auto py-8">
         <h1 className="mb-4 text-4xl font-bold">Packing list</h1>
-        <InputList 
-            onAddItem={handleAddItem} 
-        />
+        <InputList onAddItem={handleAddItem} />
         <div className="grid grid-cols-2 gap-4 mt-12 transition">
           <div>
             <header className="grid gap-2 items-center mb-6 border-b pb-6">
               <h2 className="font-bold text-2xl">To pack items</h2>
-              {/* Add buttons for clearing items and filters */}
             </header>
-            <ItemList 
-              items={toPackItems} 
-              onPackItem={handlePackItem}
-              onRemoveItem={handleRemoveItem} 
-              onUnpackItem={handleUnpackItem} 
-            />
+            <ToPackList items={toPackItems} onPackItem={handlePackItem} onRemoveItem={(index) => handleRemoveItem(index)}/>
           </div>
           <div>
             <header className="grid gap-2 items-center mb-6 border-b pb-6">
               <h2 className="font-bold text-2xl">Packed items</h2>
-              {/* Add buttons for clearing items and filters */}
             </header>
-            <ItemList 
-              items={packedItems} 
-              onRemoveItem={handleRemoveItem} 
-              onUnpackItem={handleUnpackItem} 
-            />
+            <PackedList items={packedItems} onUnpackItem={handleUnpackItem} onRemoveItem={(index) => handleRemoveItem(index)}/>
           </div>
         </div>
       </div>
